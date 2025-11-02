@@ -1,0 +1,28 @@
+@import "tailwindcss";
+
+@import url('https://fonts.googleapis.com/css2?family=Kamal&display=swap');
+
+@font-face {
+  font-family: 'Kamal';
+  src: local('Kamal'), url('/font/Kamal.woff2') format('woff2');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'WsParadose';
+  src: local('WsParadose'), url('/font/WsParadose.woff2') format('woff2');
+  font-display: swap;
+}
+
+/* Step 2: Apply the font to the body */
+
+.paradose{
+  font-family: 'WsParadose', sans-serif;
+}
+.platform-container {
+    opacity: 0;
+    transform: translateY(100vh);
+}
+
+* {
+  font-family: 'Kamal', sans-serif;
+}
