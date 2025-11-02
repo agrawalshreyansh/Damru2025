@@ -7,6 +7,28 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+// Simple tabs implementation to avoid import issues
+const SimpleTabsButton = ({
+  active,
+  onClick,
+  children,
+}: {
+  active: boolean;
+  onClick: () => void;
+  children: React.ReactNode;
+}) => (
+  <button
+    type="button"
+    onClick={onClick}
+    className={`px-4 py-2 text-sm font-medium rounded-md transition-colors ${
+      active
+        ? "bg-blue-600 text-white"
+        : "text-gray-700 hover:text-gray-900 hover:bg-gray-100"
+    }`}
+  >
+    {children}
+  </button>
+);
 import {
   AlertDialog,
   AlertDialogAction,
@@ -32,6 +54,7 @@ import {
   Trash2,
   Loader2,
 } from "lucide-react";
+import RegistrationsTab from "./components/RegistrationsTab";
 
 interface Prize {
   first?: string;
@@ -62,6 +85,54 @@ interface Competition {
   stagesAndTimelines?: Stage[];
 }
 
+interface TeamMember {
+  id: string;
+  email: string;
+  name: string;
+  status: string;
+  user?: {
+    id: string;
+    name: string;
+    email: string;
+    phone?: string;
+    collegeName?: string;
+  };
+}
+
+interface RegistrationTeam {
+  id: string;
+  name: string;
+  paymentStatus: string;
+  leader: {
+    id: string;
+    name: string;
+    email: string;
+    phone?: string;
+    collegeName?: string;
+  };
+  members: TeamMember[];
+}
+
+interface RegistrationData {
+  id: string;
+  userId: string;
+  competitionId: string;
+  teamId?: string;
+  paymentStatus: string;
+  createdAt: string;
+  user: {
+    id: string;
+    name: string;
+    email: string;
+    phone?: string;
+    collegeName?: string;
+    yearOfStudy?: string;
+    state?: string;
+    city?: string;
+  };
+  team?: RegistrationTeam;
+}
+
 type StageStatus = "upcoming" | "active" | "completed";
 
 export default function CompetitionDetail() {
@@ -73,6 +144,11 @@ export default function CompetitionDetail() {
   const [error, setError] = useState<string | null>(null);
   const [deleteLoading, setDeleteLoading] = useState<boolean>(false);
   const [markdownContent, setMarkdownContent] = useState<string>("");
+  const [activeTab, setActiveTab] = useState<string>("overview");
+  const [registrations, setRegistrations] = useState<RegistrationData[]>([]);
+  const [registrationsLoading, setRegistrationsLoading] =
+    useState<boolean>(false);
+  const [approvingTeam, setApprovingTeam] = useState<string | null>(null);
 
   useEffect(() => {
     if (params?.id) {
@@ -80,6 +156,13 @@ export default function CompetitionDetail() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params?.id]);
+
+  useEffect(() => {
+    if (activeTab === "registrations" && params?.id) {
+      fetchRegistrations();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeTab, params?.id]);
 
   const fetchCompetition = async () => {
     try {
@@ -115,6 +198,36 @@ export default function CompetitionDetail() {
       }
     } catch (error) {
       console.error("Failed to load markdown content:", error);
+    }
+  };
+
+  const fetchRegistrations = async () => {
+    try {
+      setRegistrationsLoading(true);
+      const response = await axiosInstance.get(
+        `/registeration/competition/${params.id}`
+      );
+      setRegistrations(response.data.data);
+    } catch (error: any) {
+      console.error("Error fetching registrations:", error);
+      setError(error.response?.data?.error || "Failed to fetch registrations");
+    } finally {
+      setRegistrationsLoading(false);
+    }
+  };
+
+  const approveTeam = async (teamId: string) => {
+    try {
+      setApprovingTeam(teamId);
+      await axiosInstance.patch(`/registeration/team/approve/${teamId}`);
+
+      // Refresh registrations to show updated status
+      await fetchRegistrations();
+    } catch (error: any) {
+      console.error("Error approving team:", error);
+      setError(error.response?.data?.error || "Failed to approve team");
+    } finally {
+      setApprovingTeam(null);
     }
   };
 
@@ -316,7 +429,7 @@ export default function CompetitionDetail() {
         </div>
       </div>
 
-      {/* Competition Overview */}
+      {/* Competition Header */}
       <Card className="mb-8">
         <CardHeader>
           <div className="flex items-start justify-between">
@@ -340,207 +453,267 @@ export default function CompetitionDetail() {
             </Badge>
           </div>
         </CardHeader>
-
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="flex items-center gap-3">
-              <Calendar className="h-5 w-5 text-blue-600" />
-              <div>
-                <p className="text-sm text-gray-600">Registration Deadline</p>
-                <p className="font-semibold">
-                  {formatDate(competition.registrationDeadline)}
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-3">
-              <Users className="h-5 w-5 text-green-600" />
-              <div>
-                <p className="text-sm text-gray-600">Team Size</p>
-                <p className="font-semibold">{competition.teamSize} members</p>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-3">
-              <DollarSign className="h-5 w-5 text-yellow-600" />
-              <div>
-                <p className="text-sm text-gray-600">Registration Fee</p>
-                <p className="font-semibold">
-                  {competition.registrationFee > 0
-                    ? `₹${competition.registrationFee}`
-                    : "Free"}
-                </p>
-              </div>
-            </div>
-
-            {competition.detailsMdPath && (
-              <div className="flex items-center gap-3">
-                <FileText className="h-5 w-5 text-purple-600" />
-                <div>
-                  <p className="text-sm text-gray-600">Details File</p>
-                  <p className="font-semibold text-sm break-all">
-                    {competition.detailsMdPath}
-                  </p>
-                </div>
-              </div>
-            )}
-          </div>
-        </CardContent>
       </Card>
 
-      {/* Prizes Section */}
-      {competition.prizes && (
-        <Card className="mb-8">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Trophy className="h-5 w-5" />
-              Prize Pool
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {competition.prizes.first && (
-                <div className="text-center p-4 bg-yellow-50 rounded-lg border border-yellow-200">
-                  <Trophy className="h-8 w-8 text-yellow-600 mx-auto mb-2" />
-                  <h3 className="font-semibold text-yellow-800">1st Place</h3>
-                  <p className="text-yellow-700">{competition.prizes.first}</p>
-                </div>
-              )}
+      {/* Tab Navigation */}
+      <div className="mb-6">
+        <div className="border-b border-gray-200">
+          <nav className="-mb-px flex space-x-8">
+            <SimpleTabsButton
+              active={activeTab === "overview"}
+              onClick={() => setActiveTab("overview")}
+            >
+              Overview
+            </SimpleTabsButton>
+            <SimpleTabsButton
+              active={activeTab === "registrations"}
+              onClick={() => setActiveTab("registrations")}
+            >
+              Registrations
+            </SimpleTabsButton>
+          </nav>
+        </div>
+      </div>
 
-              {competition.prizes.second && (
-                <div className="text-center p-4 bg-gray-50 rounded-lg border border-gray-200">
-                  <Trophy className="h-8 w-8 text-gray-600 mx-auto mb-2" />
-                  <h3 className="font-semibold text-gray-800">2nd Place</h3>
-                  <p className="text-gray-700">{competition.prizes.second}</p>
-                </div>
-              )}
-
-              {competition.prizes.third && (
-                <div className="text-center p-4 bg-amber-50 rounded-lg border border-amber-200">
-                  <Trophy className="h-8 w-8 text-amber-600 mx-auto mb-2" />
-                  <h3 className="font-semibold text-amber-800">3rd Place</h3>
-                  <p className="text-amber-700">{competition.prizes.third}</p>
-                </div>
-              )}
-            </div>
-
-            {competition.otherRewards && (
-              <div className="mt-4 p-4 bg-blue-50 rounded-lg border border-blue-200">
-                <h4 className="font-semibold text-blue-800 mb-2">
-                  Other Rewards
-                </h4>
-                <p className="text-blue-700">{competition.otherRewards}</p>
-              </div>
-            )}
-          </CardContent>
-        </Card>
-      )}
-
-      {/* Competition Image */}
-      {competition.imagePath && (
-        <Card className="mb-8">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <FileText className="h-5 w-5" />
-              Competition Image
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex justify-center">
-              <img
-                src={`${competition.imagePath}`}
-                alt={competition.title}
-                className="max-w-full h-auto rounded-lg border shadow-sm"
-              />
-            </div>
-          </CardContent>
-        </Card>
-      )}
-
-      {/* Competition Details */}
-      {markdownContent && (
-        <Card className="mb-8">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <FileText className="h-5 w-5" />
-              Competition Details
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div
-              className="prose prose-sm max-w-none bg-black p-4 rounded-md border"
-              dangerouslySetInnerHTML={{
-                __html: markdownToHtml(markdownContent),
-              }}
-            />
-          </CardContent>
-        </Card>
-      )}
-
-      {/* Stages and Timeline */}
-      {competition.stagesAndTimelines &&
-        competition.stagesAndTimelines.length > 0 && (
-          <Card>
+      {/* Tab Content */}
+      {activeTab === "overview" && (
+        <div>
+          {/* Competition Overview */}
+          <Card className="mb-8">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Clock className="h-5 w-5" />
-                Stages & Timeline
-              </CardTitle>
+              <CardTitle>Competition Details</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="space-y-6">
-                {competition.stagesAndTimelines.map((stage, index) => {
-                  const status = getStageStatus(stage.startDate, stage.endDate);
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div className="flex items-center gap-3">
+                  <Calendar className="h-5 w-5 text-blue-600" />
+                  <div>
+                    <p className="text-sm text-gray-600">
+                      Registration Deadline
+                    </p>
+                    <p className="font-semibold">
+                      {formatDate(competition.registrationDeadline)}
+                    </p>
+                  </div>
+                </div>
 
-                  return (
-                    <div key={stage.id} className="relative">
-                      {index <
-                        (competition.stagesAndTimelines?.length ?? 0) - 1 && (
-                        <div className="absolute left-6 top-12 w-0.5 h-16 bg-gray-200"></div>
-                      )}
+                <div className="flex items-center gap-3">
+                  <Users className="h-5 w-5 text-green-600" />
+                  <div>
+                    <p className="text-sm text-gray-600">Team Size</p>
+                    <p className="font-semibold">
+                      {competition.teamSize} members
+                    </p>
+                  </div>
+                </div>
 
-                      <div className="flex items-start gap-4">
-                        <div className="flex items-center justify-center w-12 h-12 rounded-full bg-gray-100 border-2 border-gray-200 shrink-0">
-                          {getStatusIcon(status)}
-                        </div>
+                <div className="flex items-center gap-3">
+                  <DollarSign className="h-5 w-5 text-yellow-600" />
+                  <div>
+                    <p className="text-sm text-gray-600">Registration Fee</p>
+                    <p className="font-semibold">
+                      {competition.registrationFee > 0
+                        ? `₹${competition.registrationFee}`
+                        : "Free"}
+                    </p>
+                  </div>
+                </div>
 
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-3 mb-2">
-                            <h3 className="text-lg font-semibold text-gray-900">
-                              Round {stage.roundNumber}: {stage.roundTitle}
-                            </h3>
-                            <Badge variant={getStatusBadgeVariant(status)}>
-                              {status === "upcoming"
-                                ? "Upcoming"
-                                : status === "active"
-                                ? "Active"
-                                : "Completed"}
-                            </Badge>
-                          </div>
-
-                          <p className="text-gray-600 mb-3">
-                            {stage.roundDesc}
-                          </p>
-
-                          <div className="flex items-center gap-4 text-sm text-gray-600">
-                            <span>Start: {formatDate(stage.startDate)}</span>
-                            <span>•</span>
-                            <span>End: {formatDate(stage.endDate)}</span>
-                          </div>
-                        </div>
-                      </div>
-
-                      {index <
-                        (competition.stagesAndTimelines?.length ?? 0) - 1 && (
-                        <Separator className="my-6" />
-                      )}
+                {competition.detailsMdPath && (
+                  <div className="flex items-center gap-3">
+                    <FileText className="h-5 w-5 text-purple-600" />
+                    <div>
+                      <p className="text-sm text-gray-600">Details File</p>
+                      <p className="font-semibold text-sm break-all">
+                        {competition.detailsMdPath}
+                      </p>
                     </div>
-                  );
-                })}
+                  </div>
+                )}
               </div>
             </CardContent>
           </Card>
-        )}
+
+          {/* Prizes Section */}
+          {competition.prizes && (
+            <Card className="mb-8">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Trophy className="h-5 w-5" />
+                  Prize Pool
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  {competition.prizes.first && (
+                    <div className="text-center p-4 bg-yellow-50 rounded-lg border border-yellow-200">
+                      <Trophy className="h-8 w-8 text-yellow-600 mx-auto mb-2" />
+                      <h3 className="font-semibold text-yellow-800">
+                        1st Place
+                      </h3>
+                      <p className="text-yellow-700">
+                        {competition.prizes.first}
+                      </p>
+                    </div>
+                  )}
+
+                  {competition.prizes.second && (
+                    <div className="text-center p-4 bg-gray-50 rounded-lg border border-gray-200">
+                      <Trophy className="h-8 w-8 text-gray-600 mx-auto mb-2" />
+                      <h3 className="font-semibold text-gray-800">2nd Place</h3>
+                      <p className="text-gray-700">
+                        {competition.prizes.second}
+                      </p>
+                    </div>
+                  )}
+
+                  {competition.prizes.third && (
+                    <div className="text-center p-4 bg-amber-50 rounded-lg border border-amber-200">
+                      <Trophy className="h-8 w-8 text-amber-600 mx-auto mb-2" />
+                      <h3 className="font-semibold text-amber-800">
+                        3rd Place
+                      </h3>
+                      <p className="text-amber-700">
+                        {competition.prizes.third}
+                      </p>
+                    </div>
+                  )}
+                </div>
+
+                {competition.otherRewards && (
+                  <div className="mt-4 p-4 bg-blue-50 rounded-lg border border-blue-200">
+                    <h4 className="font-semibold text-blue-800 mb-2">
+                      Other Rewards
+                    </h4>
+                    <p className="text-blue-700">{competition.otherRewards}</p>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          )}
+
+          {/* Competition Image */}
+          {competition.imagePath && (
+            <Card className="mb-8">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <FileText className="h-5 w-5" />
+                  Competition Image
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="flex justify-center">
+                  <img
+                    src={`${competition.imagePath}`}
+                    alt={competition.title}
+                    className="max-w-full h-auto rounded-lg border shadow-sm"
+                  />
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
+          {/* Competition Details */}
+          {markdownContent && (
+            <Card className="mb-8">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <FileText className="h-5 w-5" />
+                  Competition Details
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div
+                  className="prose prose-sm max-w-none bg-black p-4 rounded-md border"
+                  dangerouslySetInnerHTML={{
+                    __html: markdownToHtml(markdownContent),
+                  }}
+                />
+              </CardContent>
+            </Card>
+          )}
+
+          {/* Stages and Timeline */}
+          {competition.stagesAndTimelines &&
+            competition.stagesAndTimelines.length > 0 && (
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Clock className="h-5 w-5" />
+                    Stages & Timeline
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-6">
+                    {competition.stagesAndTimelines.map((stage, index) => {
+                      const status = getStageStatus(
+                        stage.startDate,
+                        stage.endDate
+                      );
+
+                      return (
+                        <div key={stage.id} className="relative">
+                          {index <
+                            (competition.stagesAndTimelines?.length ?? 0) -
+                              1 && (
+                            <div className="absolute left-6 top-12 w-0.5 h-16 bg-gray-200"></div>
+                          )}
+
+                          <div className="flex items-start gap-4">
+                            <div className="flex items-center justify-center w-12 h-12 rounded-full bg-gray-100 border-2 border-gray-200 shrink-0">
+                              {getStatusIcon(status)}
+                            </div>
+
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center gap-3 mb-2">
+                                <h3 className="text-lg font-semibold text-gray-900">
+                                  Round {stage.roundNumber}: {stage.roundTitle}
+                                </h3>
+                                <Badge variant={getStatusBadgeVariant(status)}>
+                                  {status === "upcoming"
+                                    ? "Upcoming"
+                                    : status === "active"
+                                    ? "Active"
+                                    : "Completed"}
+                                </Badge>
+                              </div>
+
+                              <p className="text-gray-600 mb-3">
+                                {stage.roundDesc}
+                              </p>
+
+                              <div className="flex items-center gap-4 text-sm text-gray-600">
+                                <span>
+                                  Start: {formatDate(stage.startDate)}
+                                </span>
+                                <span>•</span>
+                                <span>End: {formatDate(stage.endDate)}</span>
+                              </div>
+                            </div>
+                          </div>
+
+                          {index <
+                            (competition.stagesAndTimelines?.length ?? 0) -
+                              1 && <Separator className="my-6" />}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+        </div>
+      )}
+
+      {activeTab === "registrations" && (
+        <RegistrationsTab
+          registrations={registrations}
+          registrationsLoading={registrationsLoading}
+          onApproveTeam={approveTeam}
+          approvingTeam={approvingTeam}
+          formatDateOnly={formatDateOnly}
+        />
+      )}
     </div>
   );
 }
