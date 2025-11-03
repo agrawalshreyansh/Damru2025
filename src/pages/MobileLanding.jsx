@@ -26,7 +26,7 @@ const MobileLanding = () => {
     const Nav2 = useRef(null);
     const Nav3 = useRef(null);
     const Nav4 = useRef(null);
-
+    const windowHeight = typeof window !== 'undefined' ? window.innerHeight : 800;
     useEffect(() => {
         // Initialize animation function that waits for all refs
         const initializeAnimation = () => {
@@ -52,10 +52,10 @@ const MobileLanding = () => {
             // Set initial states (hidden)
             gsap.set([logoRef.current], { opacity: 0, y: -30 });
             gsap.set([platformRef.current], { y: 100, opacity: 0 });
-            gsap.set([Nav1.current, Nav2.current, Nav3.current, Nav4.current], {
-                opacity: 0,
-                rotationX: -90,
-                y: 20
+            gsap.set([Nav1.current, Nav2.current, Nav3.current, Nav4.current], { 
+                opacity: 0, 
+                rotationX: -90, 
+                y: 20 
             });
             gsap.set([leftImageRef.current, rightImageRef.current], { opacity: 0 });
             gsap.set([cloud1Ref.current, cloud2Ref.current], { opacity: 0, y: 20 });
@@ -73,93 +73,93 @@ const MobileLanding = () => {
                 duration: 1,
                 ease: "power2.out"
             })
-                // 2. Platform slides up from bottom
-                .to(platformRef.current, {
-                    opacity: 1,
-                    y: 0,
-                    duration: 1.2,
-                    ease: "power2.out"
-                }, "-=0.5")
-                // 3. Nav buttons flip in one by one
-                .to([Nav1.current, Nav2.current, Nav3.current, Nav4.current], {
-                    opacity: 1,
-                    rotationX: 0,
-                    y: 0,
-                    duration: 0.8,
-                    ease: "back.out(1.7)",
-                    stagger: 0.2
-                }, "-=0.5")
-                // 4. Register button appears with bounce effect
-                .to(registerButtonRef.current, {
-                    opacity: 1,
-                    y: 0,
-                    scale: 1,
-                    duration: 0.8,
-                    ease: "back.out(1.7)"
-                }, "-=0.3")
-                // 5. Timer fades in after platform setup
-                .to(timerRef.current, {
-                    opacity: 1,
-                    y: 0,
-                    duration: 0.8,
-                    ease: "power2.out"
-                }, "-=0.4")
-                // 6. Left and right images fade in
-                .to([leftImageRef.current, rightImageRef.current], {
-                    opacity: 1,
-                    duration: 1,
-                    ease: "power2.out"
-                }, "-=0.3")
-                // 7. Clouds fade in
-                .to([cloud1Ref.current, cloud2Ref.current], {
-                    opacity: 1,
-                    y: 0,
-                    duration: 1,
-                    ease: "power2.out"
-                }, "-=0.5")
-                // 8. Wheel fades in
-                .to(wheelRef.current, {
-                    opacity: 1,
-                    duration: 0.8,
-                    ease: "power2.out"
-                }, "-=0.4")
-                // 9. Start continuous animations
-                .call(() => {
-                    // Register button text animation
-                    if (registerTextRef.current) {
-                        gsap.to(registerTextRef.current.children, {
-                            filter: 'blur(0px)',
-                            duration: 0.8,
-                            ease: "power2.out",
-                            stagger: 0.1
-                        });
-                    }
-
-                    // Wheel continuous rotation
-                    gsap.to(wheelRef.current, {
-                        rotation: 360,
-                        duration: 20,
-                        repeat: -1,
-                        ease: "none"
+            // 2. Platform slides up from bottom
+            .to(platformRef.current, {
+                opacity: 1,
+                y: 0,
+                duration: 1.2,
+                ease: "power2.out"
+            }, "-=0.5")
+            // 3. Nav buttons flip in one by one
+            .to([Nav1.current, Nav2.current, Nav3.current, Nav4.current], {
+                opacity: 1,
+                rotationX: 0,
+                y: 0,
+                duration: 0.8,
+                ease: "back.out(1.7)",
+                stagger: 0.2
+            }, "-=0.5")
+            // 4. Register button appears with bounce effect
+            .to(registerButtonRef.current, {
+                opacity: 1,
+                y: 0,
+                scale: 1,
+                duration: 0.8,
+                ease: "back.out(1.7)"
+            }, "-=0.3")
+            // 5. Timer fades in after platform setup
+            .to(timerRef.current, {
+                opacity: 1,
+                y: 0,
+                duration: 0.8,
+                ease: "power2.out"
+            }, "-=0.4")
+            // 6. Left and right images fade in
+            .to([leftImageRef.current, rightImageRef.current], {
+                opacity: 1,
+                duration: 1,
+                ease: "power2.out"
+            }, "-=0.3")
+            // 7. Clouds fade in
+            .to([cloud1Ref.current, cloud2Ref.current], {
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                ease: "power2.out"
+            }, "-=0.5")
+            // 8. Wheel fades in
+            .to(wheelRef.current, {
+                opacity: 1,
+                duration: 0.8,
+                ease: "power2.out"
+            }, "-=0.4")
+            // 9. Start continuous animations
+            .call(() => {
+                // Register button text animation
+                if (registerTextRef.current) {
+                    gsap.to(registerTextRef.current.children, { 
+                        filter: 'blur(0px)', 
+                        duration: 0.8, 
+                        ease: "power2.out", 
+                        stagger: 0.1 
                     });
-
-                    // Cloud floating animations
-                    gsap.to(cloud1Ref.current, {
-                        y: -15,
-                        duration: 3,
-                        ease: "power1.inOut",
-                        yoyo: true,
-                        repeat: -1
-                    });
-                    gsap.to(cloud2Ref.current, {
-                        y: -10,
-                        duration: 2.5,
-                        ease: "power1.inOut",
-                        yoyo: true,
-                        repeat: -1,
-                        delay: 1
-                    });
+                }
+                
+                // Wheel continuous rotation
+                gsap.to(wheelRef.current, { 
+                    rotation: 360, 
+                    duration: 20, 
+                    repeat: -1, 
+                    ease: "none" 
                 });
+                
+                // Cloud floating animations
+                gsap.to(cloud1Ref.current, { 
+                    y: -15, 
+                    duration: 3, 
+                    ease: "power1.inOut", 
+                    yoyo: true, 
+                    repeat: -1 
+                });
+                gsap.to(cloud2Ref.current, { 
+                    y: -10, 
+                    duration: 2.5, 
+                    ease: "power1.inOut", 
+                    yoyo: true, 
+                    repeat: -1,
+                    delay: 1 
+                });
+            });
         };
 
         // Start initialization
@@ -182,7 +182,7 @@ const MobileLanding = () => {
         document.body.style.position = 'fixed';
         document.body.style.width = '100%';
         document.body.style.height = '100%';
-
+        
         // Cleanup on unmount
         return () => {
             document.body.style.overflow = 'unset';
@@ -194,10 +194,10 @@ const MobileLanding = () => {
     }, []);
 
     return (
-        <div
+        <div 
             className='fixed inset-0 bg-[#f9e1d2] w-full h-full overflow-hidden'
-            style={{
-                touchAction: 'none',
+            style={{ 
+                touchAction: 'none', 
                 overscrollBehavior: 'none',
                 WebkitOverflowScrolling: 'touch',
                 width: '100vw',
@@ -206,7 +206,7 @@ const MobileLanding = () => {
             }}
         >
 
-            <Image
+            <Image  
                 ref={logoRef}
                 src='/svg/Logo.svg'
                 width={0}
@@ -221,12 +221,12 @@ const MobileLanding = () => {
                 unoptimized={true}
             />
 
-            <Image
+            <Image 
                 ref={leftImageRef}
-                src='/svg/Left.svg'
-                width={0}
-                height={0}
-                alt='Left Decoration'
+                src='/svg/Left.svg'  
+                width={0} 
+                height={0} 
+                alt='Left Decoration' 
                 className='absolute h-auto w-full z-0'
                 style={{
                     left: '-65%',
@@ -234,12 +234,12 @@ const MobileLanding = () => {
                 }}
                 unoptimized={true}
             />
-            <Image
+            <Image 
                 ref={rightImageRef}
-                src='/svg/Right.svg'
-                width={0}
-                height={0}
-                alt='Right Decoration'
+                src='/svg/Right.svg' 
+                width={0} 
+                height={0} 
+                alt='Right Decoration' 
                 className='absolute h-auto w-full z-0'
                 style={{
                     right: '-65%',
@@ -247,7 +247,7 @@ const MobileLanding = () => {
                 }}
                 unoptimized={true}
             />
-
+            
             <Image
                 ref={cloud1Ref}
                 src='/svg/Cloud2.svg'
@@ -275,10 +275,15 @@ const MobileLanding = () => {
                 }}
                 unoptimized={true}
             />
-            <div className='absolute w-full text-white z-20' style={{ top: '32vh', height: '20vh' }}>
-                <motion.button
-                    whileTap={{ scale: 0.9 }}
-                    className="absolute paradose w-[36%] h-[4.5vh] flex items-center justify-center" style={{ left: '8%', top: '10%' }} ref={Nav1}>
+
+           
+
+        <div className='fixed bottom-0 left-0 w-full z-10'  style={{ height: '60vh' }}>
+             <div className='absolute w-full text-white z-20' style={{ top: '0', height: '30%' }}>
+                {/* Events - Top Left */}
+                <motion.button 
+                whileTap={{scale:0.9}}
+                className="absolute paradose w-[36%] h-[4.5vh] flex items-center justify-center" style={{left: '8%',top: '0'}} ref={Nav1}>
                     <Image
                         src='/svg/NavBg.svg'
                         alt='Events Background'
@@ -291,9 +296,12 @@ const MobileLanding = () => {
                         Events
                     </h1>
                 </motion.button>
-                <motion.button
-                    whileTap={{ scale: 0.9 }}
-                    className="absolute paradose w-[30%] h-[4.5vh] flex items-center content-center justify-center right-0" style={{ left: '60%', top: '15%' }} ref={Nav2}>
+                   
+         
+                {/* Contact - Top Right */}
+                <motion.button 
+                whileTap={{scale:0.9}}
+                className="absolute paradose w-[30%] h-[4.5vh] flex items-center content-center justify-center right-0" style={{left: '60%',top: '0'}} ref={Nav2}>
                     <Image
                         src='/svg/NavBg.svg'
                         alt='Events Background'
@@ -306,9 +314,12 @@ const MobileLanding = () => {
                         Contact
                     </h1>
                 </motion.button>
-                <motion.button
-                    whileTap={{ scale: 0.9 }}
-                    className="absolute paradose w-[35%] h-[4.5vh] flex items-center content-center justify-center right-0" style={{ left: '35%', top: '45%' }} ref={Nav3}>
+
+
+                {/* Competitions - Center Middle */}
+                 <motion.button 
+                 whileTap={{scale:0.9}}
+                 className="absolute paradose w-[35%] h-[4.5vh] flex items-center content-center justify-center right-0" style={{left: '35%',top: '25%'}} ref={Nav3}>
                     <Image
                         src='/svg/NavBg.svg'
                         alt='Events Background'
@@ -321,10 +332,11 @@ const MobileLanding = () => {
                         Competitions
                     </h1>
                 </motion.button>
-
-                <motion.button
-                    whileTap={{ scale: 0.9 }}
-                    className="absolute paradose w-[35%] h-[4.5vh] flex items-center content-center justify-center right-0" style={{ left: '65%', top: '65%' }} ref={Nav4}>
+                {/* About Damru - Bottom Right */}
+             
+                 <motion.button 
+                 whileTap={{scale:0.9}}
+                 className="absolute paradose w-[35%] h-[4.5vh] flex items-center content-center justify-center right-0" style={{left: '65%',top: '50%'}} ref={Nav4}>
                     <Image
                         src='/svg/NavBg.svg'
                         alt='Events Background'
@@ -337,26 +349,34 @@ const MobileLanding = () => {
                         About Damru
                     </h1>
                 </motion.button>
+           
             </div>
-            <div className='absolute w-full z-10' style={{ bottom: '3.5vh', height: '30vh' }}>
-                <Image
-                    ref={platformRef}
-                    src="/png/MobilePlatform.png"
-                    alt="Platform"
-                    width={0}
-                    height={0}
-                    className="w-full absolute z-10"
-                    style={{ bottom: '10%' }}
-                    unoptimized={true}
-                />
-                <div
-                    className='absolute w-full flex flex-col items-center'
-                    style={{ bottom: '2vh' }}
-                >
-                    <div
+
+
+            <div className='relative w-full h-full flex flex-col justify-end'>
+                <div className="relative w-full">
+                    <Image
+                        ref={platformRef}
+                        src="/png/MobilePlatform.png"
+                        alt="Platform"
+                        width={0}
+                        height={0}
+                        className="w-full relative z-10"
+                        unoptimized={true}
+                    />
+
+                    <div 
+                        className='absolute w-full flex  flex-col items-center'
+                        style={{ 
+                            bottom: '2%', // Position relative to platform image height
+                            left: 0,
+                            right: 0
+                        }}
+                    >
+                    <div 
                         ref={registerButtonRef}
                         className="flex justify-center w-full z-20"
-                        style={{ marginBottom: '2vh' }}
+                        style={{ marginBottom: '0' }}
                     >
                         <motion.button
                             whileHover={{ scale: 1.0 }}
@@ -378,7 +398,7 @@ const MobileLanding = () => {
                             </h1>
                         </motion.button>
                     </div>
-                    <div
+                    <div 
                         ref={timerRef}
                         className='flex flex-col items-center gap-2 pb-2 z-20'
                     >
@@ -394,19 +414,19 @@ const MobileLanding = () => {
                         </div>
                         <div className='flex justify-center gap-20'>
                             <div className='w-[15%] flex flex-col justify-center items-center'>
-                                <h1 className='text-white text-7xl'>{String(timeLeft.minutes).padStart(2, '0')}</h1>
-                                <h1 className='text-white text-3xl -mt-1'>Minutes</h1>
+                                <h1 className='text-white text-6xl'>{String(timeLeft.minutes).padStart(2, '0')}</h1>
+                                <h1 className='text-white text-2xl -mt-1'>Minutes</h1>
                             </div>
                             <div className='w-[15%] flex flex-col justify-center items-center'>
-                                <h1 className='text-white text-7xl'>{String(timeLeft.seconds).padStart(2, '0')}</h1>
-                                <h1 className='text-white text-3xl -mt-1'>Seconds</h1>
+                                <h1 className='text-white text-6xl'>{String(timeLeft.seconds).padStart(2, '0')}</h1>
+                                <h1 className='text-white text-2xl -mt-1'>Seconds</h1>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div
+                <div 
                     className="flex justify-center w-full absolute z-5"
-                    style={{
+                    style={{ 
                         bottom: '20vh',
                         transform: 'scale(1.12)'
                     }}
@@ -422,8 +442,10 @@ const MobileLanding = () => {
                     />
                 </div>
 
-
+                </div>
+                
             </div>
+        </div>
 
         </div>
     )
