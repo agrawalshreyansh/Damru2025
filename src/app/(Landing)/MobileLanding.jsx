@@ -4,7 +4,7 @@ import React, { useRef, useEffect, useState } from 'react'
 import Image from 'next/image'
 import { motion } from "motion/react";
 import { gsap } from 'gsap';
-import getTimeLeft from '../app/common/utils/getTimeLeft.js';
+import getTimeLeft from '@/app/common/utils/getTimeLeft.js';
 import NavButton from '@/app/common/components/NavButton.jsx';
 
 
@@ -46,8 +46,6 @@ const MobileLanding = () => {
                 setTimeout(initializeAnimation, 100);
                 return;
             }
-
-            console.log('All refs ready, starting animations');
 
             // Set initial states (hidden)
             gsap.set([logoRef.current], { opacity: 0, y: -30 });
@@ -278,12 +276,12 @@ const MobileLanding = () => {
 
            
 
-        <div className='fixed bottom-0 left-0 w-full z-10'  style={{ height: '60vh' }}>
+        <div className='fixed bottom-0 left-0 w-full z-10 h-[55vh]' >
              <div className='absolute w-full text-white z-20' style={{ top: '0', height: '30%' }}>
                 {/* Events - Top Left */}
                 <motion.button 
                 whileTap={{scale:0.9}}
-                className="absolute paradose w-[36%] h-[4.5vh] flex items-center justify-center" style={{left: '8%',top: '0'}} ref={Nav1}>
+                className="absolute paradose w-[25%] h-[4.5vh] flex items-center justify-center" style={{left: '16%',top:'-5%'}} ref={Nav1}>
                     <Image
                         src='/svg/NavBg.svg'
                         alt='Events Background'
@@ -292,7 +290,7 @@ const MobileLanding = () => {
                         className='absolute w-full h-auto inset-0'
                         unoptimized={true}
                     />
-                    <h1 className="relative z-10 text-white font-WsParadose text-lg">
+                    <h1 className="relative z-10 pb-2 text-white font-WsParadose text-xl">
                         Events
                     </h1>
                 </motion.button>
@@ -301,7 +299,7 @@ const MobileLanding = () => {
                 {/* Contact - Top Right */}
                 <motion.button 
                 whileTap={{scale:0.9}}
-                className="absolute paradose w-[30%] h-[4.5vh] flex items-center content-center justify-center right-0" style={{left: '60%',top: '0'}} ref={Nav2}>
+                className="absolute paradose w-[22%] h-[4.5vh] flex items-center content-center justify-center right-0" style={{left: '64%',top: '-5%'}} ref={Nav2}>
                     <Image
                         src='/svg/NavBg.svg'
                         alt='Events Background'
@@ -310,9 +308,9 @@ const MobileLanding = () => {
                         className='absolute w-full h-auto inset-0'
                         unoptimized={true}
                     />
-                    <h1 className="relative z-10 text-white font-WsParadose  text-lg">
+                    <div className="relative z-10 pb-3 text-white font-WsParadose  text-lg">
                         Contact
-                    </h1>
+                    </div>
                 </motion.button>
 
 
@@ -328,15 +326,13 @@ const MobileLanding = () => {
                         className='absolute w-full h-auto inset-0'
                         unoptimized={true}
                     />
-                    <h1 className="relative z-10 text-white font-WsParadose  text-lg">
+                    <h1 className="relative z-10 text-white font-WsParadose  text-xl">
                         Competitions
                     </h1>
                 </motion.button>
-                {/* About Damru - Bottom Right */}
-             
                  <motion.button 
                  whileTap={{scale:0.9}}
-                 className="absolute paradose w-[35%] h-[4.5vh] flex items-center content-center justify-center right-0" style={{left: '65%',top: '50%'}} ref={Nav4}>
+                 className="absolute paradose w-[32%] h-[4.5vh] flex items-center content-center justify-center right-0" style={{left: '65%',top: '65%'}} ref={Nav4}>
                     <Image
                         src='/svg/NavBg.svg'
                         alt='Events Background'
@@ -345,7 +341,7 @@ const MobileLanding = () => {
                         className='absolute w-full h-auto inset-0'
                         unoptimized={true}
                     />
-                    <h1 className="relative z-10 text-white font-WsParadose  text-lg">
+                    <h1 className="relative pb-1 z-10 text-white font-WsParadose  text-lg">
                         About Damru
                     </h1>
                 </motion.button>
@@ -366,17 +362,16 @@ const MobileLanding = () => {
                     />
 
                     <div 
-                        className='absolute w-full flex  flex-col items-center'
+                        className='absolute w-full flex flex-col items-center'
                         style={{ 
-                            bottom: '2%', // Position relative to platform image height
+                            bottom: '2%', 
                             left: 0,
                             right: 0
                         }}
                     >
                     <div 
                         ref={registerButtonRef}
-                        className="flex justify-center w-full z-20"
-                        style={{ marginBottom: '0' }}
+                        className="flex justify-center w-full z-20 mb-0"
                     >
                         <motion.button
                             whileHover={{ scale: 1.0 }}
@@ -400,7 +395,7 @@ const MobileLanding = () => {
                     </div>
                     <div 
                         ref={timerRef}
-                        className='flex flex-col items-center gap-2 pb-2 z-20'
+                        className='flex flex-col items-center gap-2 pb-2 z-20 pt-6'
                     >
                         <div className='flex justify-center gap-20'>
                             <div className='w-[15%] flex flex-col justify-center items-center'>
