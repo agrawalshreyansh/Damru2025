@@ -5,7 +5,6 @@ import Image from 'next/image'
 import { motion } from "motion/react";
 import { gsap } from 'gsap';
 import getTimeLeft from '@/app/common/utils/getTimeLeft.js';
-import NavButton from '@/app/common/components/NavButton.jsx';
 
 
 const MobileLanding = () => {
@@ -26,6 +25,9 @@ const MobileLanding = () => {
     const Nav2 = useRef(null);
     const Nav3 = useRef(null);
     const Nav4 = useRef(null);
+    var [display,setDisplay] = useState('none');
+    
+    
     const windowHeight = typeof window !== 'undefined' ? window.innerHeight : 800;
     useEffect(() => {
         // Initialize animation function that waits for all refs
@@ -46,6 +48,8 @@ const MobileLanding = () => {
                 setTimeout(initializeAnimation, 100);
                 return;
             }
+
+            console.log('All refs ready, starting animations');
 
             // Set initial states (hidden)
             gsap.set([logoRef.current], { opacity: 0, y: -30 });
@@ -191,258 +195,306 @@ const MobileLanding = () => {
         };
     }, []);
 
-    return (
-        <div 
-            className='fixed inset-0 bg-[#f9e1d2] w-full h-full overflow-hidden'
-            style={{ 
-                touchAction: 'none', 
-                overscrollBehavior: 'none',
-                WebkitOverflowScrolling: 'touch',
-                width: '100vw',
-                height: '100vh',
-                minHeight: '100vh'
-            }}
-        >
 
-            <Image  
-                ref={logoRef}
+    return (
+        <>
+            <div 
+                className='fixed inset-0 bg-[#f9e1d2] w-full h-full overflow-hidden'
+                style={{ 
+                    touchAction: 'none', 
+                    overscrollBehavior: 'none',
+                    WebkitOverflowScrolling: 'touch',
+                    width: '100vw',
+                    height: '100vh',
+                    minHeight: '100vh'
+                }}
+            >
+            <div className='absolute h-[60vh] w-full'>
+                <Image  
+                    ref={logoRef}
+                    src='/svg/Logo.svg'
+                    width={0}
+                    height={0}
+                    alt='Damru Logo'
+                    className='absolute z-50 h-auto w-[40%]'
+                    style={{
+                        top: '5vh',
+                        left: '50%',
+                        transform: 'translateX(-50%)'
+                    }}
+                    unoptimized={true}
+                />
+
+                <Image 
+                    ref={leftImageRef}
+                    src='/svg/Left.svg'  
+                    width={0} 
+                    height={0} 
+                    alt='Left Decoration' 
+                    className='absolute h-auto w-full z-0'
+                    style={{
+                        left: '-65%',
+                        top: '20vh'
+                    }}
+                    unoptimized={true}
+                />
+                <Image 
+                    ref={rightImageRef}
+                    src='/svg/Right.svg' 
+                    width={0} 
+                    height={0} 
+                    alt='Right Decoration' 
+                    className='absolute h-auto w-full z-0'
+                    style={{
+                        right: '-65%',
+                        top: '20vh'
+                    }}
+                    unoptimized={true}
+                />
+                
+                <Image
+                    ref={cloud1Ref}
+                    src='/svg/Cloud2.svg'
+                    width={0}
+                    height={0}
+                    alt='Cloud Left'
+                    className='absolute h-auto w-[50%] z-40'
+                    style={{
+                        left: '-15%',
+                        top: '20vh'
+                    }}
+                    unoptimized={true}
+                />
+
+                <Image
+                    ref={cloud2Ref}
+                    src='/svg/Cloud2.svg'
+                    width={0}
+                    height={0}
+                    alt='Cloud Right'
+                    className='absolute h-auto w-[50%] z-40'
+                    style={{
+                        right: '-20%',
+                        top: '10vh'
+                    }}
+                    unoptimized={true}
+                />
+                
+            </div>
+            
+
+            
+
+            <div className='fixed bottom-0 left-0 w-full flex-col justify-end content-baseline items-end z-10'  style={{ height: '40vh' }}>
+
+
+                <div className='absolute w-full h-full top-0 flex bottom-0 flex-col justify-end'>
+                    <div className="relative bottom-[30%] w-full">
+                        <Image
+                            ref={platformRef}
+                            src="/png/TemplesP.png"
+                            alt="Platform"
+                            width={0}
+                            height={0}
+                            className="w-full relative z-10"
+                            unoptimized={true}
+                        />
+
+                        <motion.button 
+                        onClick={() => setDisplay('flex')}
+                        whileTap={{scale:0.9}}
+                        className="relative paradose w-[30%] h-auto  items-center z-10 text-white font-WsParadose text-lg " style={{left: '13%',bottom:'70%',
+                            backgroundImage: "url('/svg/NavBg.svg')",
+                            backgroundSize: "contain",
+                            backgroundPosition: "center",
+                            backgroundRepeat: "no-repeat"
+
+                        }} ref={Nav1}>
+                            Events
+                
+                        </motion.button>
+                    
+            
+                        {/* Contact - Top Right */}
+                        <motion.button 
+                        onClick={() => setDisplay('flex')}
+                        whileTap={{scale:0.9}}
+                        className="relative paradose w-[30%] h-auto z-10 text-white font-WsParadose text-lg items-center text-center" style={{left: '29%',bottom: '70%',
+                            backgroundImage: "url('/svg/NavBg.svg')",
+                            backgroundSize: "contain",
+                            backgroundPosition: "center",
+                            backgroundRepeat: "no-repeat"
+
+                        }} ref={Nav2}>
+                            
+                                Contact
+                            
+                        </motion.button>
+
+                        {/* Competitions - Center Middle */}
+                        <motion.button 
+                        onClick={() => setDisplay('flex')}
+                        whileTap={{scale:0.9}}
+                        className="paradose w-[40%] p-1 h-auto relative z-10 text-white font-WsParadose text-lg items-center text-center" style={{left: '0',bottom: '40%',
+                            backgroundImage: "url('/svg/NavBg.svg')",
+                            backgroundSize: "contain",
+                            backgroundPosition: "center",
+                            backgroundRepeat: "no-repeat"
+
+                        }} ref={Nav3}>
+                            About Damru
+                
+                        </motion.button>
+
+                        {/* About Damru - Bottom Right */}
+                    
+                        <motion.button 
+                        onClick={() => setDisplay('flex')}
+                        whileTap={{scale:0.9}}
+                        className="relative paradose w-[40%] p-1  h-auto z-10 text-white text-center font-WsParadose text-lg " style={{left: '32%',bottom: '60%',
+                            backgroundImage: "url('/svg/NavBg.svg')",
+                            backgroundSize: "contain",
+                            backgroundPosition: "center",
+                            backgroundRepeat: "no-repeat"
+
+                        }} ref={Nav4}>
+                    
+                                Competitions
+                        
+                        </motion.button>
+            
+
+                    </div>
+                    
+
+                    <div className='absolute w-full h-[30vh] bottom-0 z-20'
+                    style={
+                        {
+                            backgroundImage: "url('svg/TemplesDown.svg')",
+
+                        }
+                    }
+                    >
+                        <div 
+                                className='relative w-full flex  flex-col items-center'
+                                style={{ 
+                                    bottom: '10%', // Position relative to platform image height
+                                    left: 0,
+                                    right: 0
+                                }}
+                            >
+                            <div 
+                                ref={registerButtonRef}
+                                className="flex justify-center w-full z-10"
+                                style={{ marginBottom: '0' }}
+                            >
+                                <motion.button 
+                                onClick={()=>setDisplay('flex')}
+                                    whileHover={{ scale: 1.0 }}
+                                    whileTap={{ scale: 0.9 }}
+                                    className='w-[70vw] h-[7vh] bg-[#CC0E3E] cursor-pointer items-center text-center justify-center flex flex-col rounded-full p-3 px-4'>
+                                    <h1 ref={registerTextRef} className='text-2xl text-white kamal'>
+                                        <span style={{ display: 'inline-block', filter: 'blur(10px)' }}>R</span>
+                                        <span style={{ display: 'inline-block', filter: 'blur(10px)' }}>e</span>
+                                        <span style={{ display: 'inline-block', filter: 'blur(10px)' }}>g</span>
+                                        <span style={{ display: 'inline-block', filter: 'blur(10px)' }}>i</span>
+                                        <span style={{ display: 'inline-block', filter: 'blur(10px)' }}>s</span>
+                                        <span style={{ display: 'inline-block', filter: 'blur(10px)' }}>t</span>
+                                        <span style={{ display: 'inline-block', filter: 'blur(10px)' }}>e</span>
+                                        <span style={{ display: 'inline-block', filter: 'blur(10px)' }}>r</span>
+                                        <span style={{ display: 'inline-block', filter: 'blur(10px)', margin: '0 4px' }}>&nbsp;</span>
+                                        <span style={{ display: 'inline-block', filter: 'blur(10px)' }}>N</span>
+                                        <span style={{ display: 'inline-block', filter: 'blur(10px)' }}>o</span>
+                                        <span style={{ display: 'inline-block', filter: 'blur(10px)' }}>w</span>
+                                    </h1>
+                                </motion.button>
+                            </div>
+                            <div 
+                                ref={timerRef}
+                                className='flex flex-col items-center gap-2 pb-2 z-20'
+                            >
+                                <div className='flex justify-center gap-20'>
+                                    <div className='w-[15%] flex flex-col justify-center items-center'>
+                                        <h1 className='text-white text-6xl'>{String(timeLeft.days).padStart(2, '0')}</h1>
+                                        <h1 className='text-white text-3xl -mt-1'>Days</h1>
+                                    </div>
+                                    <div className='w-[15%] flex flex-col justify-center items-center'>
+                                        <h1 className='text-white text-6xl'>{String(timeLeft.hours).padStart(2, '0')}</h1>
+                                        <h1 className='text-white text-3xl -mt-1'>Hours</h1>
+                                    </div>
+                                </div>
+                                <div className='flex justify-center gap-20'>
+                                    <div className='w-[15%] flex flex-col justify-center items-center'>
+                                        <h1 className='text-white text-6xl'>{String(timeLeft.minutes).padStart(2, '0')}</h1>
+                                        <h1 className='text-white text-2xl -mt-1'>Minutes</h1>
+                                    </div>
+                                    <div className='w-[15%] flex flex-col justify-center items-center'>
+                                        <h1 className='text-white text-6xl'>{String(timeLeft.seconds).padStart(2, '0')}</h1>
+                                        <h1 className='text-white text-2xl -mt-1'>Seconds</h1>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> 
+
+
+                
+                    </div>
+                    <div 
+                        className="flex justify-center w-full absolute z-5"
+                        style={{ 
+                            bottom: '20vh',
+                            transform: 'scale(1.12)'
+                        }}
+                    >
+                        <Image
+                            ref={wheelRef}
+                            src="/svg/WheelBg.svg"
+                            alt="Wheel"
+                            width={0}
+                            height={0}
+                            className="h-auto w-full opacity-100"
+                            unoptimized={true}
+                        />
+                    </div> 
+                    
+                    
+                </div>
+            </div>
+
+            </div>
+
+            <div className='w-screen absolute h-screen z-30 flex gap-2 justify-center items-center content-center flex-col bg-black'
+            style={
+                {
+                    display: display,
+                    backgroundSize: "cover",
+                    backgroundImage: "url('png/ComingSoon.png')",
+                    backgroundPosition: "contain",
+                    backgroundRepeat: "no-repeat",
+                }
+            }
+            >
+                <Image 
                 src='/svg/Logo.svg'
                 width={0}
                 height={0}
-                alt='Damru Logo'
-                className='absolute z-50 h-auto w-[40%]'
-                style={{
-                    top: '5vh',
-                    left: '50%',
-                    transform: 'translateX(-50%)'
-                }}
-                unoptimized={true}
-            />
+                className='w-[20vh] relative top-[10%]'
+                alt='Logo'
+                />
 
-            <Image 
-                ref={leftImageRef}
-                src='/svg/Left.svg'  
-                width={0} 
-                height={0} 
-                alt='Left Decoration' 
-                className='absolute h-auto w-full z-0'
-                style={{
-                    left: '-65%',
-                    top: '20vh'
-                }}
-                unoptimized={true}
-            />
-            <Image 
-                ref={rightImageRef}
-                src='/svg/Right.svg' 
-                width={0} 
-                height={0} 
-                alt='Right Decoration' 
-                className='absolute h-auto w-full z-0'
-                style={{
-                    right: '-65%',
-                    top: '20vh'
-                }}
-                unoptimized={true}
-            />
-            
-            <Image
-                ref={cloud1Ref}
-                src='/svg/Cloud2.svg'
-                width={0}
-                height={0}
-                alt='Cloud Left'
-                className='absolute h-auto w-[50%] z-40'
-                style={{
-                    left: '-15%',
-                    top: '20vh'
-                }}
-                unoptimized={true}
-            />
+                <h1 className='text-5xl relative top-[10%]'>Coming Soon</h1>
+                <p className='text-2xl text-center relative top-[10%]'>We’re actively working on it at this moment.</p>
 
-            <Image
-                ref={cloud2Ref}
-                src='/svg/Cloud2.svg'
-                width={0}
-                height={0}
-                alt='Cloud Right'
-                className='absolute h-auto w-[50%] z-40'
-                style={{
-                    right: '-20%',
-                    top: '10vh'
-                }}
-                unoptimized={true}
-            />
-
-           
-
-        <div className='fixed bottom-0 left-0 w-full z-10 h-[55vh]' >
-             <div className='absolute w-full text-white z-20' style={{ top: '0', height: '30%' }}>
-                {/* Events - Top Left */}
                 <motion.button 
                 whileTap={{scale:0.9}}
-                className="absolute paradose w-[25%] h-[4.5vh] flex items-center justify-center" style={{left: '16%',top:'-5%'}} ref={Nav1}>
-                    <Image
-                        src='/svg/NavBg.svg'
-                        alt='Events Background'
-                        width={0}
-                        height={0}
-                        className='absolute w-full h-auto inset-0'
-                        unoptimized={true}
-                    />
-                    <h1 className="relative z-10 pb-2 text-white font-WsParadose text-xl">
-                        Events
-                    </h1>
-                </motion.button>
-                   
-         
-                {/* Contact - Top Right */}
-                <motion.button 
-                whileTap={{scale:0.9}}
-                className="absolute paradose w-[22%] h-[4.5vh] flex items-center content-center justify-center right-0" style={{left: '64%',top: '-5%'}} ref={Nav2}>
-                    <Image
-                        src='/svg/NavBg.svg'
-                        alt='Events Background'
-                        width={0}
-                        height={0}
-                        className='absolute w-full h-auto inset-0'
-                        unoptimized={true}
-                    />
-                    <div className="relative z-10 pb-3 text-white font-WsParadose  text-lg">
-                        Contact
-                    </div>
+                onClick={() => setDisplay('none')}
+                className='text-white text-2xl bg-[#CC0E3E] p-4 relative top-[20%] w-[50vw] rounded-2xl'>
+                    Back to Home
+
                 </motion.button>
 
-
-                {/* Competitions - Center Middle */}
-                 <motion.button 
-                 whileTap={{scale:0.9}}
-                 className="absolute paradose w-[35%] h-[4.5vh] flex items-center content-center justify-center right-0" style={{left: '35%',top: '25%'}} ref={Nav3}>
-                    <Image
-                        src='/svg/NavBg.svg'
-                        alt='Events Background'
-                        width={0}
-                        height={0}
-                        className='absolute w-full h-auto inset-0'
-                        unoptimized={true}
-                    />
-                    <h1 className="relative z-10 text-white font-WsParadose  text-xl">
-                        Competitions
-                    </h1>
-                </motion.button>
-                 <motion.button 
-                 whileTap={{scale:0.9}}
-                 className="absolute paradose w-[32%] h-[4.5vh] flex items-center content-center justify-center right-0" style={{left: '65%',top: '65%'}} ref={Nav4}>
-                    <Image
-                        src='/svg/NavBg.svg'
-                        alt='Events Background'
-                        width={0}
-                        height={0}
-                        className='absolute w-full h-auto inset-0'
-                        unoptimized={true}
-                    />
-                    <h1 className="relative pb-1 z-10 text-white font-WsParadose  text-lg">
-                        About Damru
-                    </h1>
-                </motion.button>
-           
             </div>
-
-
-            <div className='relative w-full h-full flex flex-col justify-end'>
-                <div className="relative w-full">
-                    <Image
-                        ref={platformRef}
-                        src="/png/MobilePlatform.png"
-                        alt="Platform"
-                        width={0}
-                        height={0}
-                        className="w-full relative z-10"
-                        unoptimized={true}
-                    />
-
-                    <div 
-                        className='absolute w-full flex flex-col items-center'
-                        style={{ 
-                            bottom: '2%', 
-                            left: 0,
-                            right: 0
-                        }}
-                    >
-                    <div 
-                        ref={registerButtonRef}
-                        className="flex justify-center w-full z-20 mb-0"
-                    >
-                        <motion.button
-                            whileHover={{ scale: 1.0 }}
-                            whileTap={{ scale: 0.9 }}
-                            className='w-[85%] bg-[#CC0E3E] cursor-pointer rounded-full p-3 px-4'>
-                            <h1 ref={registerTextRef} className='text-4xl text-white kamal'>
-                                <span style={{ display: 'inline-block', filter: 'blur(10px)' }}>R</span>
-                                <span style={{ display: 'inline-block', filter: 'blur(10px)' }}>e</span>
-                                <span style={{ display: 'inline-block', filter: 'blur(10px)' }}>g</span>
-                                <span style={{ display: 'inline-block', filter: 'blur(10px)' }}>i</span>
-                                <span style={{ display: 'inline-block', filter: 'blur(10px)' }}>s</span>
-                                <span style={{ display: 'inline-block', filter: 'blur(10px)' }}>t</span>
-                                <span style={{ display: 'inline-block', filter: 'blur(10px)' }}>e</span>
-                                <span style={{ display: 'inline-block', filter: 'blur(10px)' }}>r</span>
-                                <span style={{ display: 'inline-block', filter: 'blur(10px)', margin: '0 4px' }}>&nbsp;</span>
-                                <span style={{ display: 'inline-block', filter: 'blur(10px)' }}>N</span>
-                                <span style={{ display: 'inline-block', filter: 'blur(10px)' }}>o</span>
-                                <span style={{ display: 'inline-block', filter: 'blur(10px)' }}>w</span>
-                            </h1>
-                        </motion.button>
-                    </div>
-                    <div 
-                        ref={timerRef}
-                        className='flex flex-col items-center gap-2 pb-2 z-20 pt-6'
-                    >
-                        <div className='flex justify-center gap-20'>
-                            <div className='w-[15%] flex flex-col justify-center items-center'>
-                                <h1 className='text-white text-7xl'>{String(timeLeft.days).padStart(2, '0')}</h1>
-                                <h1 className='text-white text-3xl -mt-1'>Days</h1>
-                            </div>
-                            <div className='w-[15%] flex flex-col justify-center items-center'>
-                                <h1 className='text-white text-7xl'>{String(timeLeft.hours).padStart(2, '0')}</h1>
-                                <h1 className='text-white text-3xl -mt-1'>Hours</h1>
-                            </div>
-                        </div>
-                        <div className='flex justify-center gap-20'>
-                            <div className='w-[15%] flex flex-col justify-center items-center'>
-                                <h1 className='text-white text-6xl'>{String(timeLeft.minutes).padStart(2, '0')}</h1>
-                                <h1 className='text-white text-2xl -mt-1'>Minutes</h1>
-                            </div>
-                            <div className='w-[15%] flex flex-col justify-center items-center'>
-                                <h1 className='text-white text-6xl'>{String(timeLeft.seconds).padStart(2, '0')}</h1>
-                                <h1 className='text-white text-2xl -mt-1'>Seconds</h1>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div 
-                    className="flex justify-center w-full absolute z-5"
-                    style={{ 
-                        bottom: '20vh',
-                        transform: 'scale(1.12)'
-                    }}
-                >
-                    <Image
-                        ref={wheelRef}
-                        src="/svg/WheelBg.svg"
-                        alt="Wheel"
-                        width={0}
-                        height={0}
-                        className="h-auto w-full opacity-100"
-                        unoptimized={true}
-                    />
-                </div>
-
-                </div>
-                
-            </div>
-        </div>
-
-        </div>
+        </>
     )
 }
 
