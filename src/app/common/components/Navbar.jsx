@@ -41,29 +41,31 @@ const Navbar = ({ display, onNavClick }) => {
         <div className='absolute z-20 w-[65%] bottom-0 overflow-hidden' style={{ display, aspectRatio: '16/9' }}>
             <NavButton
                 name="Events"
-                className="left-[22%]"
+                className="left-[22%] top-[6%] w-[clamp(80px,18%,200px)]"
                 ref={Nav1}
-                textClassName="right-[2%]"
+                textClassName="right-[2%] text-[clamp(0.6rem,1.4vw,1.6rem)]"
                 onClick={onNavClick}
             />
             <NavButton
-                name="Competitions"
-                className="left-[42%] top-[26%]"
+                name="Competitions" 
+                className="left-[40%] top-[24%] w-[clamp(90px,22%,240px)]"
                 ref={Nav4}
                 onClick={onNavClick}
+                textClassName=" text-[clamp(1rem,1.8vw,2rem)]"
             />
             <NavButton
                 name="Contact"
-                className="right-[20%]"
+                className="right-[18%] top-2 w-[clamp(80px,18%,200px)]"
                 ref={Nav2}
-                textClassName="right-[4%]"
+                textClassName="text-[clamp(0.8rem,1.6vw,1.8rem)]"
                 onClick={onNavClick}
             />
             <NavButton
                 name="About Damru"
-                className="top-[20%] right-[12%]"
+                className="top-[20%] right-[12%] w-[clamp(80px,18%,200px)]"
                 ref={Nav3}
                 onClick={onNavClick}
+                textClassName="text-[clamp(0.6rem,1.4vw,1.6rem)]"
             />
         </div>
     );
