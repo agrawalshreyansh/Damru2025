@@ -199,7 +199,6 @@ const Landing = () => {
                     />
                 </div>
 
-                {/* Coming Soon Section - Initially positioned well below screen */}
                 <div 
                     ref={comingSoonRef}
                     className='absolute top-0 left-0 w-screen h-screen z-10'

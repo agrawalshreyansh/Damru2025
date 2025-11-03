@@ -9,16 +9,16 @@ const NavButton = React.forwardRef(({ name, className, textClassName, onClick },
             whileTap={{ scale: 0.9 }}
             ref={ref} 
             onClick={onClick}
-            className={`z-25 relative flex justify-center w-[36%] h-[2.5vh]  cursor-pointer paradose ${className}`}>
+            className={`z-25 absolute flex justify-center w-[clamp(80px,18%,200px)] cursor-pointer paradose ${className}`}>
             <Image
                 src='svg/NavBg.svg'
                 alt={name}
                 width={0}
                 height={0}
-                className='absolute w-full h-auto'
+                className='w-full h-auto'
                 unoptimized={true}
             />
-            <div className={`absolute flex justify-center w-full text-[clamp(0.8rem,1.6vw,1.8rem)] top-[10%] sm:top-[55%] ${textClassName}`}>{name}</div>
+            <div className={`absolute flex justify-center items-center w-full h-full text-[clamp(0.5rem,1.2vw,1.4rem)] text-white ${textClassName}`}>{name}</div>
         </motion.div>
     )
 })

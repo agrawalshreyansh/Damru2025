@@ -38,35 +38,33 @@ const Navbar = ({ display, onNavClick }) => {
     }, [display]);
 
     return (
-        <div className='absolute z-25 text-white w-[60%] h-[50%] lg:h-[60%] xl:h-[90%]' style={{ display }}>
-            <div className='flex gap-4 relative w-full h-full z-20'>
-                <NavButton
-                    name="Events"
-                    className="left-[16%] bottom-[20%] "
-                    ref={Nav1}
-                    textClassName="right-[2%]"
-                    onClick={onNavClick}
-                />
-                <NavButton
-                    name="Competitions"
-                    className="bottom-[6%] left-[14%]"
-                    ref={Nav4}
-                    onClick={onNavClick}
-                />
-                <NavButton
-                    name="Contact"
-                    className="left-[10%] bottom-[22%]"
-                    ref={Nav2}
-                    textClassName="right-[4%]"
-                    onClick={onNavClick}
-                />
-                <NavButton
-                    name="About Damru"
-                    className="bottom-[10%] right-[8%]"
-                    ref={Nav3}
-                    onClick={onNavClick}
-                />
-            </div>
+        <div className='absolute z-20 w-[65%] bottom-0 overflow-hidden' style={{ display, aspectRatio: '16/9' }}>
+            <NavButton
+                name="Events"
+                className="left-[22%]"
+                ref={Nav1}
+                textClassName="right-[2%]"
+                onClick={onNavClick}
+            />
+            <NavButton
+                name="Competitions"
+                className="left-[42%] top-[26%]"
+                ref={Nav4}
+                onClick={onNavClick}
+            />
+            <NavButton
+                name="Contact"
+                className="right-[20%]"
+                ref={Nav2}
+                textClassName="right-[4%]"
+                onClick={onNavClick}
+            />
+            <NavButton
+                name="About Damru"
+                className="top-[20%] right-[12%]"
+                ref={Nav3}
+                onClick={onNavClick}
+            />
         </div>
     );
 };

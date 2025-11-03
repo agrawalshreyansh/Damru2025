@@ -30,7 +30,7 @@ const Platform = ({ pillarsSettled, onPlatformSettled, onTemplesSettled, onNavCl
 
     return (
         <div ref={platformRef} className='flex justify-center relative items-end h-screen z-20 platform-container'>
-            <div className='flex flex-col justify-center items-center w-full bg-blue'>
+            <div className='flex flex-col relative justify-center items-center w-full bg-blue bottom-0 h-full'>
                 <Image
                     src="/svg/Temples.svg"
                     alt="Platform"
