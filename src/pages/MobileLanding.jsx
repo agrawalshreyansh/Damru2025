@@ -52,10 +52,10 @@ const MobileLanding = () => {
             // Set initial states (hidden)
             gsap.set([logoRef.current], { opacity: 0, y: -30 });
             gsap.set([platformRef.current], { y: 100, opacity: 0 });
-            gsap.set([Nav1.current, Nav2.current, Nav3.current, Nav4.current], { 
-                opacity: 0, 
-                rotationX: -90, 
-                y: 20 
+            gsap.set([Nav1.current, Nav2.current, Nav3.current, Nav4.current], {
+                opacity: 0,
+                rotationX: -90,
+                y: 20
             });
             gsap.set([leftImageRef.current, rightImageRef.current], { opacity: 0 });
             gsap.set([cloud1Ref.current, cloud2Ref.current], { opacity: 0, y: 20 });
@@ -73,93 +73,93 @@ const MobileLanding = () => {
                 duration: 1,
                 ease: "power2.out"
             })
-            // 2. Platform slides up from bottom
-            .to(platformRef.current, {
-                opacity: 1,
-                y: 0,
-                duration: 1.2,
-                ease: "power2.out"
-            }, "-=0.5")
-            // 3. Nav buttons flip in one by one
-            .to([Nav1.current, Nav2.current, Nav3.current, Nav4.current], {
-                opacity: 1,
-                rotationX: 0,
-                y: 0,
-                duration: 0.8,
-                ease: "back.out(1.7)",
-                stagger: 0.2
-            }, "-=0.5")
-            // 4. Register button appears with bounce effect
-            .to(registerButtonRef.current, {
-                opacity: 1,
-                y: 0,
-                scale: 1,
-                duration: 0.8,
-                ease: "back.out(1.7)"
-            }, "-=0.3")
-            // 5. Timer fades in after platform setup
-            .to(timerRef.current, {
-                opacity: 1,
-                y: 0,
-                duration: 0.8,
-                ease: "power2.out"
-            }, "-=0.4")
-            // 6. Left and right images fade in
-            .to([leftImageRef.current, rightImageRef.current], {
-                opacity: 1,
-                duration: 1,
-                ease: "power2.out"
-            }, "-=0.3")
-            // 7. Clouds fade in
-            .to([cloud1Ref.current, cloud2Ref.current], {
-                opacity: 1,
-                y: 0,
-                duration: 1,
-                ease: "power2.out"
-            }, "-=0.5")
-            // 8. Wheel fades in
-            .to(wheelRef.current, {
-                opacity: 1,
-                duration: 0.8,
-                ease: "power2.out"
-            }, "-=0.4")
-            // 9. Start continuous animations
-            .call(() => {
-                // Register button text animation
-                if (registerTextRef.current) {
-                    gsap.to(registerTextRef.current.children, { 
-                        filter: 'blur(0px)', 
-                        duration: 0.8, 
-                        ease: "power2.out", 
-                        stagger: 0.1 
+                // 2. Platform slides up from bottom
+                .to(platformRef.current, {
+                    opacity: 1,
+                    y: 0,
+                    duration: 1.2,
+                    ease: "power2.out"
+                }, "-=0.5")
+                // 3. Nav buttons flip in one by one
+                .to([Nav1.current, Nav2.current, Nav3.current, Nav4.current], {
+                    opacity: 1,
+                    rotationX: 0,
+                    y: 0,
+                    duration: 0.8,
+                    ease: "back.out(1.7)",
+                    stagger: 0.2
+                }, "-=0.5")
+                // 4. Register button appears with bounce effect
+                .to(registerButtonRef.current, {
+                    opacity: 1,
+                    y: 0,
+                    scale: 1,
+                    duration: 0.8,
+                    ease: "back.out(1.7)"
+                }, "-=0.3")
+                // 5. Timer fades in after platform setup
+                .to(timerRef.current, {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.8,
+                    ease: "power2.out"
+                }, "-=0.4")
+                // 6. Left and right images fade in
+                .to([leftImageRef.current, rightImageRef.current], {
+                    opacity: 1,
+                    duration: 1,
+                    ease: "power2.out"
+                }, "-=0.3")
+                // 7. Clouds fade in
+                .to([cloud1Ref.current, cloud2Ref.current], {
+                    opacity: 1,
+                    y: 0,
+                    duration: 1,
+                    ease: "power2.out"
+                }, "-=0.5")
+                // 8. Wheel fades in
+                .to(wheelRef.current, {
+                    opacity: 1,
+                    duration: 0.8,
+                    ease: "power2.out"
+                }, "-=0.4")
+                // 9. Start continuous animations
+                .call(() => {
+                    // Register button text animation
+                    if (registerTextRef.current) {
+                        gsap.to(registerTextRef.current.children, {
+                            filter: 'blur(0px)',
+                            duration: 0.8,
+                            ease: "power2.out",
+                            stagger: 0.1
+                        });
+                    }
+
+                    // Wheel continuous rotation
+                    gsap.to(wheelRef.current, {
+                        rotation: 360,
+                        duration: 20,
+                        repeat: -1,
+                        ease: "none"
                     });
-                }
-                
-                // Wheel continuous rotation
-                gsap.to(wheelRef.current, { 
-                    rotation: 360, 
-                    duration: 20, 
-                    repeat: -1, 
-                    ease: "none" 
+
+                    // Cloud floating animations
+                    gsap.to(cloud1Ref.current, {
+                        y: -15,
+                        duration: 3,
+                        ease: "power1.inOut",
+                        yoyo: true,
+                        repeat: -1
+                    });
+                    gsap.to(cloud2Ref.current, {
+                        y: -10,
+                        duration: 2.5,
+                        ease: "power1.inOut",
+                        yoyo: true,
+                        repeat: -1,
+                        delay: 1
+                    });
                 });
-                
-                // Cloud floating animations
-                gsap.to(cloud1Ref.current, { 
-                    y: -15, 
-                    duration: 3, 
-                    ease: "power1.inOut", 
-                    yoyo: true, 
-                    repeat: -1 
-                });
-                gsap.to(cloud2Ref.current, { 
-                    y: -10, 
-                    duration: 2.5, 
-                    ease: "power1.inOut", 
-                    yoyo: true, 
-                    repeat: -1,
-                    delay: 1 
-                });
-            });
         };
 
         // Start initialization
@@ -182,7 +182,7 @@ const MobileLanding = () => {
         document.body.style.position = 'fixed';
         document.body.style.width = '100%';
         document.body.style.height = '100%';
-        
+
         // Cleanup on unmount
         return () => {
             document.body.style.overflow = 'unset';
@@ -194,51 +194,71 @@ const MobileLanding = () => {
     }, []);
 
     return (
-        <div 
+        <div
             className='fixed inset-0 bg-[#f9e1d2] w-full h-full overflow-hidden'
-            style={{ 
-                touchAction: 'none', 
+            style={{
+                touchAction: 'none',
                 overscrollBehavior: 'none',
-                WebkitOverflowScrolling: 'touch'
+                WebkitOverflowScrolling: 'touch',
+                width: '100vw',
+                height: '100vh',
+                minHeight: '100vh'
             }}
         >
 
-            <Image  
+            <Image
                 ref={logoRef}
                 src='/svg/Logo.svg'
                 width={0}
                 height={0}
                 alt='Damru Logo'
-                className='absolute top-10 left-50 h-auto w-[40%] z-50 transform -translate-x-1/2'
+                className='absolute z-50 h-auto w-[40%]'
+                style={{
+                    top: '5vh',
+                    left: '50%',
+                    transform: 'translateX(-50%)'
+                }}
                 unoptimized={true}
             />
 
-            <Image 
+            <Image
                 ref={leftImageRef}
-                src='/svg/Left.svg'  
-                width={0} 
-                height={0} 
-                alt='Left Decoration' 
-                className='absolute -left-65 top-30 h-auto w-full z-0' 
+                src='/svg/Left.svg'
+                width={0}
+                height={0}
+                alt='Left Decoration'
+                className='absolute h-auto w-full z-0'
+                style={{
+                    left: '-65%',
+                    top: '20vh'
+                }}
                 unoptimized={true}
             />
-            <Image 
+            <Image
                 ref={rightImageRef}
-                src='/svg/Right.svg' 
-                width={0} 
-                height={0} 
-                alt='Right Decoration' 
-                className='absolute -right-65 top-30 h-auto w-full z-0' 
+                src='/svg/Right.svg'
+                width={0}
+                height={0}
+                alt='Right Decoration'
+                className='absolute h-auto w-full z-0'
+                style={{
+                    right: '-65%',
+                    top: '20vh'
+                }}
                 unoptimized={true}
             />
-            
+
             <Image
                 ref={cloud1Ref}
                 src='/svg/Cloud2.svg'
                 width={0}
                 height={0}
                 alt='Cloud Left'
-                className='absolute -left-15 top-40 h-auto w-[50%] z-40'
+                className='absolute h-auto w-[50%] z-40'
+                style={{
+                    left: '-15%',
+                    top: '20vh'
+                }}
                 unoptimized={true}
             />
 
@@ -248,59 +268,95 @@ const MobileLanding = () => {
                 width={0}
                 height={0}
                 alt='Cloud Right'
-                className='absolute -right-20 top-10 h-auto w-[50%] z-40'
+                className='absolute h-auto w-[50%] z-40'
+                style={{
+                    right: '-20%',
+                    top: '10vh'
+                }}
                 unoptimized={true}
             />
+            <div className='absolute w-full text-white z-20' style={{ top: '32vh', height: '20vh' }}>
+                <motion.button
+                    whileTap={{ scale: 0.9 }}
+                    className="absolute paradose w-[36%] h-[4.5vh] flex items-center justify-center" style={{ left: '8%', top: '10%' }} ref={Nav1}>
+                    <Image
+                        src='/svg/NavBg.svg'
+                        alt='Events Background'
+                        width={0}
+                        height={0}
+                        className='absolute w-full h-auto inset-0'
+                        unoptimized={true}
+                    />
+                    <h1 className="relative z-10 text-white font-WsParadose text-lg">
+                        Events
+                    </h1>
+                </motion.button>
+                <motion.button
+                    whileTap={{ scale: 0.9 }}
+                    className="absolute paradose w-[30%] h-[4.5vh] flex items-center content-center justify-center right-0" style={{ left: '60%', top: '15%' }} ref={Nav2}>
+                    <Image
+                        src='/svg/NavBg.svg'
+                        alt='Events Background'
+                        width={0}
+                        height={0}
+                        className='absolute w-full h-auto inset-0'
+                        unoptimized={true}
+                    />
+                    <h1 className="relative z-10 text-white font-WsParadose  text-lg">
+                        Contact
+                    </h1>
+                </motion.button>
+                <motion.button
+                    whileTap={{ scale: 0.9 }}
+                    className="absolute paradose w-[35%] h-[4.5vh] flex items-center content-center justify-center right-0" style={{ left: '35%', top: '45%' }} ref={Nav3}>
+                    <Image
+                        src='/svg/NavBg.svg'
+                        alt='Events Background'
+                        width={0}
+                        height={0}
+                        className='absolute w-full h-auto inset-0'
+                        unoptimized={true}
+                    />
+                    <h1 className="relative z-10 text-white font-WsParadose  text-lg">
+                        Competitions
+                    </h1>
+                </motion.button>
 
-             <div className='flex gap-4 absolute w-full top-100 text-white h-full z-20'>
-                <NavButton
-                    name="Events"
-                    className="left-[18%] bottom-[2%]"
-                    ref={Nav1}
-                    textClassName="right-[2%] bottom-30"
-            
-                />
-                            <NavButton
-                                name="Competitions"
-                                className="-bottom-[2%] left-[15%]"
-                                ref={Nav4}
-                           
-                            />
-                            <NavButton
-                                name="Contact"
-                                className="left-[10%] bottom-[2%]"
-                                ref={Nav2}
-                                textClassName="right-[4%]"
-                              
-                            />
-                            <NavButton
-                                name="About Damru"
-                                className="-bottom-[10%] right-[8%]"
-                                ref={Nav3}
-                            
-                            />
-                        </div>
-              
-        
-            <div className='absolute bottom-0 w-full max-h-screen'>
+                <motion.button
+                    whileTap={{ scale: 0.9 }}
+                    className="absolute paradose w-[35%] h-[4.5vh] flex items-center content-center justify-center right-0" style={{ left: '65%', top: '65%' }} ref={Nav4}>
+                    <Image
+                        src='/svg/NavBg.svg'
+                        alt='Events Background'
+                        width={0}
+                        height={0}
+                        className='absolute w-full h-auto inset-0'
+                        unoptimized={true}
+                    />
+                    <h1 className="relative z-10 text-white font-WsParadose  text-lg">
+                        About Damru
+                    </h1>
+                </motion.button>
+            </div>
+            <div className='absolute w-full z-10' style={{ bottom: '3.5vh', height: '30vh' }}>
                 <Image
                     ref={platformRef}
                     src="/png/MobilePlatform.png"
                     alt="Platform"
                     width={0}
                     height={0}
-                    className="w-full absolute bottom-0 z-10"
+                    className="w-full absolute z-10"
+                    style={{ bottom: '10%' }}
                     unoptimized={true}
                 />
-
-            
-                
-                
-
-                <div className='absolute bottom-4 w-full flex flex-col items-center'>
-                    <div 
+                <div
+                    className='absolute w-full flex flex-col items-center'
+                    style={{ bottom: '2vh' }}
+                >
+                    <div
                         ref={registerButtonRef}
-                        className="flex justify-center w-full z-20 mb-4"
+                        className="flex justify-center w-full z-20"
+                        style={{ marginBottom: '2vh' }}
                     >
                         <motion.button
                             whileHover={{ scale: 1.0 }}
@@ -322,7 +378,7 @@ const MobileLanding = () => {
                             </h1>
                         </motion.button>
                     </div>
-                    <div 
+                    <div
                         ref={timerRef}
                         className='flex flex-col items-center gap-2 pb-2 z-20'
                     >
@@ -348,7 +404,13 @@ const MobileLanding = () => {
                         </div>
                     </div>
                 </div>
-                <div className="flex justify-center w-full absolute bottom-38 z-5 scale-112">
+                <div
+                    className="flex justify-center w-full absolute z-5"
+                    style={{
+                        bottom: '20vh',
+                        transform: 'scale(1.12)'
+                    }}
+                >
                     <Image
                         ref={wheelRef}
                         src="/svg/WheelBg.svg"
@@ -360,7 +422,7 @@ const MobileLanding = () => {
                     />
                 </div>
 
-                
+
             </div>
 
         </div>
