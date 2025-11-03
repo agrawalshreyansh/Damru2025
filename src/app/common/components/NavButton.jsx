@@ -18,7 +18,7 @@ const NavButton = React.forwardRef(({ name, className, textClassName, onClick },
                 className='absolute w-full h-auto'
                 unoptimized={true}
             />
-            <div className={`absolute flex justify-center w-full text-[clamp(0.9rem,1.6vw,1.8rem)] top-[10%] sm:top-[55%] ${textClassName}`}>{name}</div>
+            <div className={`absolute flex justify-center w-full text-[clamp(0.8rem,1.6vw,1.8rem)] top-[10%] sm:top-[55%] ${textClassName}`}>{name}</div>
         </motion.div>
     )
 })

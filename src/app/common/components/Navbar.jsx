@@ -38,11 +38,11 @@ const Navbar = ({ display, onNavClick }) => {
     }, [display]);
 
     return (
-        <div className='absolute z-25 text-white w-[60%] h-full ' style={{ display }}>
+        <div className='absolute z-25 text-white w-[60%] h-[50%] lg:h-[60%] xl:h-[90%]' style={{ display }}>
             <div className='flex gap-4 relative w-full h-full z-20'>
                 <NavButton
                     name="Events"
-                    className="left-[16%] bottom-[20%]"
+                    className="left-[16%] bottom-[20%] "
                     ref={Nav1}
                     textClassName="right-[2%]"
                     onClick={onNavClick}
