@@ -38,35 +38,35 @@ const Navbar = ({ display, onNavClick }) => {
     }, [display]);
 
     return (
-        <div className='absolute z-25 text-white w-[60%] h-full ' style={{ display }}>
-            <div className='flex gap-4 relative w-full h-full z-20'>
-                <NavButton
-                    name="Events"
-                    className="left-[16%] bottom-[20%]"
-                    ref={Nav1}
-                    textClassName="right-[2%]"
-                    onClick={onNavClick}
-                />
-                <NavButton
-                    name="Competitions"
-                    className="bottom-[6%] left-[14%]"
-                    ref={Nav4}
-                    onClick={onNavClick}
-                />
-                <NavButton
-                    name="Contact"
-                    className="left-[10%] bottom-[22%]"
-                    ref={Nav2}
-                    textClassName="right-[4%]"
-                    onClick={onNavClick}
-                />
-                <NavButton
-                    name="About Damru"
-                    className="bottom-[10%] right-[8%]"
-                    ref={Nav3}
-                    onClick={onNavClick}
-                />
-            </div>
+        <div className='absolute z-20 w-[65%] bottom-0 overflow-hidden' style={{ display, aspectRatio: '16/9' }}>
+            <NavButton
+                name="Events"
+                className="left-[22%] top-[6%] w-[clamp(80px,18%,200px)]"
+                ref={Nav1}
+                textClassName="right-[2%] text-[clamp(0.6rem,1.4vw,1.6rem)]"
+                onClick={onNavClick}
+            />
+            <NavButton
+                name="Competitions" 
+                className="left-[40%] top-[24%] w-[clamp(90px,22%,240px)]"
+                ref={Nav4}
+                onClick={onNavClick}
+                textClassName=" text-[clamp(1rem,1.8vw,2rem)]"
+            />
+            <NavButton
+                name="Contact"
+                className="right-[18%] top-2 w-[clamp(80px,18%,200px)]"
+                ref={Nav2}
+                textClassName="text-[clamp(0.8rem,1.6vw,1.8rem)]"
+                onClick={onNavClick}
+            />
+            <NavButton
+                name="About Damru"
+                className="top-[20%] right-[12%] w-[clamp(80px,18%,200px)]"
+                ref={Nav3}
+                onClick={onNavClick}
+                textClassName="text-[clamp(0.6rem,1.4vw,1.6rem)]"
+            />
         </div>
     );
 };

@@ -1,7 +1,7 @@
 'use client'
 
-import Landing from "./common/components/Landing";
-import MobileLanding from "../pages/MobileLanding";
+import Landing from "./(Landing)/Landing";
+import MobileLanding from "./(Landing)/MobileLanding";
 import { useState, useEffect } from 'react';
 import './globals.css';
 

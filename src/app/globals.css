@@ -7,20 +7,21 @@
   src: local('Kamal'), url('/font/Kamal.woff2') format('woff2');
   font-display: swap;
 }
+
 @font-face {
   font-family: 'WsParadose';
-  src: local('WsParadose'), url('/font/WsParadose.woff2') format('woff2');
-  font-display: swap;
+  src: local('WsParadose'), url('/font/WsParadose.ttf') format('truetype');
 }
 
 /* Step 2: Apply the font to the body */
 
-.paradose{
+.paradose {
   font-family: 'WsParadose', sans-serif;
 }
+
 .platform-container {
-    opacity: 0;
-    transform: translateY(100vh);
+  opacity: 0;
+  transform: translateY(100vh);
 }
 
 * {

@@ -3,9 +3,9 @@
 import React, { useRef, useEffect, useState, useCallback } from 'react'
 import Image from 'next/image'
 import gsap from 'gsap'
-import Pillars from './Pillars'
-import Wheels from './Wheels'
-import Platform from './Platform'
+import Pillars from '../common/components/Pillars'
+import Wheels from '../common/components/Wheels'
+import Platform from '../common/components/Platform'
 import { motion } from "motion/react";
 const Landing = () => {
     const wheelRef = useRef(null);
@@ -199,7 +199,6 @@ const Landing = () => {
                     />
                 </div>
 
-                {/* Coming Soon Section - Initially positioned well below screen */}
                 <div 
                     ref={comingSoonRef}
                     className='absolute top-0 left-0 w-screen h-screen z-10'
